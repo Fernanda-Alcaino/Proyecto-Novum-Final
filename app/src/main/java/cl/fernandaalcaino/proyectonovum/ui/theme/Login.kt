@@ -25,7 +25,7 @@ fun LoginScreen(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
-    // SOLUCIÓN: Usar valores directos en lugar de collectAsState() si no existen los StateFlows
+
     val usuarioActual by remember { authViewModel.usuarioActual }.collectAsState()
     val errorMessage by remember { authViewModel.errorMessage }.collectAsState()
     val isLoading by remember { authViewModel.isLoading }.collectAsState()
