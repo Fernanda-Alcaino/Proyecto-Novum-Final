@@ -10,15 +10,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
 private val LightColorScheme = lightColorScheme(
-    primary = Color(0xFFFFCDD2),       // Rosa muy suave
+    primary = Color(0xFFFFCDD2),
     onPrimary = Color.Black,
     secondary = Color(0xFFF8BBD0),
     onSecondary = Color.Black,
     tertiary = Color(0xFFF48FB1),
     onTertiary = Color.Black,
-    surface = Color(0xFFFFF9FB),       // Fondo casi blanco con tono rosa
+    surface = Color(0xFFFFF9FB),
     onSurface = Color.Black,
-    background = Color(0xFFFFF9FB),    // Fondo casi blanco con tono rosa
+    background = Color(0xFFFFF9FB),
     onBackground = Color.Black,
     error = Color(0xFFBA1A1A),
     onError = Color.White
