@@ -11,5 +11,7 @@ data class Habito(
     val metaDiaria: Double = 0.0,
     val progresoHoy: Double = 0.0,
     val racha: Int = 0,
-    val activo: Boolean = true
+    val activo: Boolean = true,
+    // AGREGAR ESTE CAMPO
+    val usuarioEmail: String = "" // Email del usuario que creó el hábito
 )

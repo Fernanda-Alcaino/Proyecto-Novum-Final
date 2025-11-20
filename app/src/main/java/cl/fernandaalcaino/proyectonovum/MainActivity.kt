@@ -9,7 +9,6 @@ import cl.fernandaalcaino.proyectonovum.model.AppDatabase
 import cl.fernandaalcaino.proyectonovum.repository.HabitoRepository
 import cl.fernandaalcaino.proyectonovum.repository.UsuarioRepository
 import cl.fernandaalcaino.proyectonovum.ui.theme.NavegacionApp
-
 import cl.fernandaalcaino.proyectonovum.viewmodel.HabitoViewModel
 import cl.fernandaalcaino.proyectonovum.viewmodel.ViewModelAutenticacion
 
@@ -20,7 +19,7 @@ class MainActivity : ComponentActivity() {
             applicationContext,
             AppDatabase::class.java,
             "habitoss_db"
-        ).fallbackToDestructiveMigration()
+        ).fallbackToDestructiveMigration() // Esto borrará datos antiguos durante desarrollo
             .allowMainThreadQueries() // Temporal para desarrollo
             .build()
     }

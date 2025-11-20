@@ -17,9 +17,14 @@ fun NavegacionApp(authViewModel: ViewModelAutenticacion, habitoViewModel: Habito
 
     LaunchedEffect(usuarioActual) {
         if (usuarioActual != null) {
+            // ESTABLECER EL USUARIO ACTUAL EN EL VIEWMODEL DE HÁBITOS
+            habitoViewModel.setUsuarioActual(usuarioActual!!.email)
             navController.navigate("habitos") {
                 popUpTo("login") { inclusive = true }
             }
+        } else {
+            // LIMPIAR DATOS CUANDO NO HAY USUARIO
+            habitoViewModel.limpiarDatos()
         }
     }
 
@@ -31,9 +36,7 @@ fun NavegacionApp(authViewModel: ViewModelAutenticacion, habitoViewModel: Habito
             LoginScreen(
                 authViewModel = authViewModel,
                 onLoginSuccess = {
-                    navController.navigate("habitos") {
-                        popUpTo("login") { inclusive = true }
-                    }
+                    // El efecto de usuarioActual se encargará de navegar
                 },
                 onNavigateToRegister = { navController.navigate("registro") }
             )
@@ -43,9 +46,7 @@ fun NavegacionApp(authViewModel: ViewModelAutenticacion, habitoViewModel: Habito
             RegistroScreen(
                 authViewModel = authViewModel,
                 onRegisterSuccess = {
-                    navController.navigate("habitos") {
-                        popUpTo("registro") { inclusive = true }
-                    }
+                    // El efecto de usuarioActual se encargará de navegar
                 },
                 onNavigateToLogin = {
                     navController.navigate("login") {
@@ -60,6 +61,8 @@ fun NavegacionApp(authViewModel: ViewModelAutenticacion, habitoViewModel: Habito
                 viewModel = habitoViewModel,
                 onNavigateToHistorial = { navController.navigate("historial") },
                 onLogout = {
+                    // ELIMINAR SOLO HÁBITOS DEL USUARIO ACTUAL
+                    habitoViewModel.eliminarHabitosUsuarioActual()
                     authViewModel.logout()
                     navController.navigate("login") {
                         popUpTo(0) { inclusive = true }
@@ -73,6 +76,8 @@ fun NavegacionApp(authViewModel: ViewModelAutenticacion, habitoViewModel: Habito
                 viewModel = habitoViewModel,
                 onNavigateBack = { navController.popBackStack() },
                 onLogout = {
+                    // ELIMINAR SOLO HÁBITOS DEL USUARIO ACTUAL
+                    habitoViewModel.eliminarHabitosUsuarioActual()
                     authViewModel.logout()
                     navController.navigate("login") {
                         popUpTo(0) { inclusive = true }

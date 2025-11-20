@@ -17,62 +17,81 @@ class HabitoViewModel(private val repository: HabitoRepository) : ViewModel() {
     val tipo = mutableStateOf("agua")
     val metaDiaria = mutableStateOf("")
 
-
     private val _habitos = MutableStateFlow<List<Habito>>(emptyList())
     val habitos: StateFlow<List<Habito>> = _habitos.asStateFlow()
 
-    init {
+    // AGREGAR: Email del usuario actual
+    private var usuarioActualEmail: String = ""
+
+    // CAMBIAR: Función para establecer el usuario actual y cargar sus hábitos
+    fun setUsuarioActual(email: String) {
+        usuarioActualEmail = email
         cargarHabitos()
     }
 
+    // CAMBIAR: Cargar hábitos del usuario actual
     private fun cargarHabitos() {
+        if (usuarioActualEmail.isBlank()) return
+
         viewModelScope.launch {
             try {
-                _habitos.value = repository.getAll()
+                _habitos.value = repository.getByUsuario(usuarioActualEmail)
             } catch (e: Exception) {
-
                 _habitos.value = emptyList()
             }
         }
     }
 
+    // CAMBIAR: Agregar hábito con el email del usuario
     fun agregarHabito(habito: Habito) {
+        if (usuarioActualEmail.isBlank()) return
+
         viewModelScope.launch {
             try {
-                repository.insert(habito)
+                val habitoConUsuario = habito.copy(usuarioEmail = usuarioActualEmail)
+                repository.insert(habitoConUsuario)
                 cargarHabitos()
             } catch (e: Exception) {
-
+                // Manejar error
             }
         }
     }
 
+    // CAMBIAR: Actualizar hábito verificando que pertenezca al usuario
     fun actualizarHabito(habito: Habito) {
+        if (usuarioActualEmail.isBlank() || habito.usuarioEmail != usuarioActualEmail) return
+
         viewModelScope.launch {
             try {
                 repository.update(habito)
                 cargarHabitos()
             } catch (e: Exception) {
-
+                // Manejar error
             }
         }
     }
 
+    // CAMBIAR: Eliminar hábito verificando que pertenezca al usuario
     fun eliminarHabito(habito: Habito) {
+        if (usuarioActualEmail.isBlank() || habito.usuarioEmail != usuarioActualEmail) return
+
         viewModelScope.launch {
             try {
                 repository.delete(habito)
                 cargarHabitos()
             } catch (e: Exception) {
-
+                // Manejar error
             }
         }
     }
 
+    // CAMBIAR: Registrar progreso verificando usuario
     fun registrarProgreso(habitoId: Int, progreso: Double) {
+        if (usuarioActualEmail.isBlank()) return
+
         viewModelScope.launch {
             try {
-                val habito = repository.getById(habitoId)
+                val habito = repository.getById(habitoId, usuarioActualEmail)
                 habito?.let { habitoEncontrado ->
                     val habitoActualizado = habitoEncontrado.copy(
                         progresoHoy = habitoEncontrado.progresoHoy + progreso
@@ -81,15 +100,18 @@ class HabitoViewModel(private val repository: HabitoRepository) : ViewModel() {
                     cargarHabitos()
                 }
             } catch (e: Exception) {
-
+                // Manejar error
             }
         }
     }
 
+    // CAMBIAR: Reiniciar progreso solo para hábitos del usuario actual
     fun reiniciarProgresoDiario() {
+        if (usuarioActualEmail.isBlank()) return
+
         viewModelScope.launch {
             try {
-                val habitosActuales = repository.getAll()
+                val habitosActuales = repository.getByUsuario(usuarioActualEmail)
                 habitosActuales.forEach { habito ->
                     val nuevaRacha = if (habito.progresoHoy >= habito.metaDiaria) {
                         habito.racha + 1
@@ -107,5 +129,28 @@ class HabitoViewModel(private val repository: HabitoRepository) : ViewModel() {
                 // Manejar error
             }
         }
+    }
+
+    // CAMBIAR: Eliminar solo hábitos del usuario actual
+    fun eliminarHabitosUsuarioActual() {
+        if (usuarioActualEmail.isBlank()) return
+
+        viewModelScope.launch {
+            try {
+                repository.deleteByUsuario(usuarioActualEmail)
+                _habitos.value = emptyList()
+            } catch (e: Exception) {
+                // Manejar error
+            }
+        }
+    }
+
+    // AGREGAR: Limpiar datos al cerrar sesión
+    fun limpiarDatos() {
+        usuarioActualEmail = ""
+        _habitos.value = emptyList()
+        nombre.value = ""
+        tipo.value = "agua"
+        metaDiaria.value = ""
     }
 }
