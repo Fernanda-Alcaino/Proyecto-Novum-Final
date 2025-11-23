@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 
 class HabitoViewModel(private val repository: HabitoRepository, postRepository: PostRepository) : ViewModel() {
 
-    // Campos para el formulario
+
     val nombre = mutableStateOf("")
     val tipo = mutableStateOf("agua")
     val metaDiaria = mutableStateOf("")
@@ -21,16 +21,15 @@ class HabitoViewModel(private val repository: HabitoRepository, postRepository: 
     private val _habitos = MutableStateFlow<List<Habito>>(emptyList())
     val habitos: StateFlow<List<Habito>> = _habitos.asStateFlow()
 
-    // AGREGAR: Email del usuario actual
+
     private var usuarioActualEmail: String = ""
 
-    // CAMBIAR: Función para establecer el usuario actual y cargar sus hábitos
     fun setUsuarioActual(email: String) {
         usuarioActualEmail = email
         cargarHabitos()
     }
 
-    // CAMBIAR: Cargar hábitos del usuario actual
+
     private fun cargarHabitos() {
         if (usuarioActualEmail.isBlank()) return
 
@@ -43,7 +42,7 @@ class HabitoViewModel(private val repository: HabitoRepository, postRepository: 
         }
     }
 
-    // CAMBIAR: Agregar hábito con el email del usuario
+
     fun agregarHabito(habito: Habito) {
         if (usuarioActualEmail.isBlank()) return
 
@@ -53,12 +52,11 @@ class HabitoViewModel(private val repository: HabitoRepository, postRepository: 
                 repository.insert(habitoConUsuario)
                 cargarHabitos()
             } catch (e: Exception) {
-                // Manejar error
+
             }
         }
     }
 
-    // CAMBIAR: Actualizar hábito verificando que pertenezca al usuario
     fun actualizarHabito(habito: Habito) {
         if (usuarioActualEmail.isBlank() || habito.usuarioEmail != usuarioActualEmail) return
 
@@ -72,7 +70,7 @@ class HabitoViewModel(private val repository: HabitoRepository, postRepository: 
         }
     }
 
-    // CAMBIAR: Eliminar hábito verificando que pertenezca al usuario
+
     fun eliminarHabito(habito: Habito) {
         if (usuarioActualEmail.isBlank() || habito.usuarioEmail != usuarioActualEmail) return
 
@@ -86,7 +84,7 @@ class HabitoViewModel(private val repository: HabitoRepository, postRepository: 
         }
     }
 
-    // CAMBIAR: Registrar progreso verificando usuario
+
     fun registrarProgreso(habitoId: Int, progreso: Double) {
         if (usuarioActualEmail.isBlank()) return
 
@@ -101,12 +99,11 @@ class HabitoViewModel(private val repository: HabitoRepository, postRepository: 
                     cargarHabitos()
                 }
             } catch (e: Exception) {
-                // Manejar error
+
             }
         }
     }
 
-    // CAMBIAR: Reiniciar progreso solo para hábitos del usuario actual
     fun reiniciarProgresoDiario() {
         if (usuarioActualEmail.isBlank()) return
 
@@ -127,12 +124,12 @@ class HabitoViewModel(private val repository: HabitoRepository, postRepository: 
                 }
                 cargarHabitos()
             } catch (e: Exception) {
-                // Manejar error
+
             }
         }
     }
 
-    // CAMBIAR: Eliminar solo hábitos del usuario actual
+
     fun eliminarHabitosUsuarioActual() {
         if (usuarioActualEmail.isBlank()) return
 
@@ -146,7 +143,7 @@ class HabitoViewModel(private val repository: HabitoRepository, postRepository: 
         }
     }
 
-    // AGREGAR: Limpiar datos al cerrar sesión
+
     fun limpiarDatos() {
         usuarioActualEmail = ""
         _habitos.value = emptyList()

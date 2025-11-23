@@ -38,7 +38,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Probar la conexión con tu API de Xano
+
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val posts = postRepository.getPosts()

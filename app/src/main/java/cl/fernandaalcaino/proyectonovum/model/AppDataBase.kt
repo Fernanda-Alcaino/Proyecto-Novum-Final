@@ -3,7 +3,6 @@ package cl.fernandaalcaino.proyectonovum.model
 import androidx.room.Database
 import androidx.room.RoomDatabase
 
-// CAMBIAR: Aumentar la versión a 3
 @Database(entities = [Habito::class, Usuario::class], version = 3)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun HabitoDao(): HabitoDao
