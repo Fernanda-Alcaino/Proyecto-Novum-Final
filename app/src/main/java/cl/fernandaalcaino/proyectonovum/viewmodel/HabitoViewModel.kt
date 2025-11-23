@@ -5,12 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cl.fernandaalcaino.proyectonovum.model.Habito
 import cl.fernandaalcaino.proyectonovum.repository.HabitoRepository
+import cl.fernandaalcaino.proyectonovum.repository.PostRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class HabitoViewModel(private val repository: HabitoRepository) : ViewModel() {
+class HabitoViewModel(private val repository: HabitoRepository, postRepository: PostRepository) : ViewModel() {
 
     // Campos para el formulario
     val nombre = mutableStateOf("")

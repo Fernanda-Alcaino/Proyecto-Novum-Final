@@ -4,14 +4,13 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitInstance {
-    // Cambia esta URL por la de tu API real de hábitos
-    private const val BASE_URL = "https://api.ejemplo-habitos.com/api/v1/"
+    private const val BASE_URL = "https://x8ki-letl-twmt.n7.xano.io/api:fzwmO_2o/"
 
-    val api: HabitoApiService by lazy {
+    val api: ApiService by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(HabitoApiService::class.java)
+            .create(ApiService::class.java)
     }
 }
