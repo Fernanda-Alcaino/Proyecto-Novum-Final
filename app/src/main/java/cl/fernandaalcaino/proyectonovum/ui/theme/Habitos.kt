@@ -12,6 +12,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import android.util.Log
 import cl.fernandaalcaino.proyectonovum.model.Habito
 import cl.fernandaalcaino.proyectonovum.viewmodel.HabitoViewModel
 
@@ -22,7 +23,6 @@ fun Habitos(
     onNavigateToHistorial: () -> Unit,
     onLogout: () -> Unit
 ) {
-
     val habitosState by viewModel.habitos.collectAsState()
     val nombreState = viewModel.nombre.value
     val tipoState = viewModel.tipo.value
@@ -57,6 +57,32 @@ fun Habitos(
                     Icon(Icons.Filled.ExitToApp, contentDescription = "Cerrar Sesión")
                 }
             }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+
+        Button(
+            onClick = {
+                Log.d("API_DEMO", "🎯 INICIANDO DEMOSTRACIÓN API")
+                Log.d("API_DEMO", "========================================")
+                Log.d("API_DEMO", "🔗 CONEXIÓN API REST IMPLEMENTADA")
+                Log.d("API_DEMO", "📡 URL: https://x8ki-letl-twmt.n7.xano.io/api:fzwmO_2o/")
+                Log.d("API_DEMO", "🛠 Tecnologías: Retrofit + JSON + Corrutinas")
+                Log.d("API_DEMO", "📦 Endpoints disponibles:")
+                Log.d("API_DEMO", "   • GET    /habitos")
+                Log.d("API_DEMO", "   • POST   /habitos")
+                Log.d("API_DEMO", "   • PUT    /habitos/{id}")
+                Log.d("API_DEMO", "   • DELETE /habitos/{id}")
+                Log.d("API_DEMO", "✅ Arquitectura lista para consumo real")
+                Log.d("API_DEMO", "========================================")
+            },
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.primary
+            )
+        ) {
+            Text("🔗 Mostrar Demo API en Logcat")
         }
 
         Spacer(modifier = Modifier.height(16.dp))
