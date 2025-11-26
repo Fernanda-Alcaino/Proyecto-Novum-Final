@@ -4,6 +4,10 @@ import ProyectoNovumTheme
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.ui.Modifier
 import androidx.room.Room
 import cl.fernandaalcaino.proyectonovum.model.AppDatabase
 import cl.fernandaalcaino.proyectonovum.repository.HabitoRepository
@@ -38,22 +42,42 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
+        // Test de conexión a la API al iniciar la aplicación
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val posts = postRepository.getPosts()
-                println("✅ API XANO CONECTADA - Hábitos: ${posts.size}")
+                println("✅ API XANO CONECTADA EXITOSAMENTE")
+                println("📡 URL: https://x8ki-letl-twmt.n7.xano.io/api:fzwmO_2o/")
+                println("📦 Hábitos recibidos: ${posts.size}")
+
+                // Mostrar detalles de cada hábito en el log
+                posts.forEachIndexed { index, post ->
+                    println("   ${index + 1}. ${post.title} - ${post.body}")
+                    println("      Vasos: ${post.userId}, Avance: ${post.avance}, Completado: ${post.completado}")
+                }
+
+                println("🎯 Los datos de la API se mostrarán automáticamente al iniciar sesión")
+
             } catch (e: Exception) {
-                println("❌ Error: ${e.message}")
+                println("❌ Error conectando a la API: ${e.message}")
+                println("🔧 Verifica:")
+                println("   - Conexión a internet")
+                println("   - URL de la API")
+                println("   - Estructura del modelo Post")
             }
         }
 
         setContent {
             ProyectoNovumTheme {
-                NavegacionApp(
-                    authViewModel = viewModelAutenticacion,
-                    habitoViewModel = habitoViewModel
-                )
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    NavegacionApp(
+                        authViewModel = viewModelAutenticacion,
+                        habitoViewModel = habitoViewModel
+                    )
+                }
             }
         }
     }

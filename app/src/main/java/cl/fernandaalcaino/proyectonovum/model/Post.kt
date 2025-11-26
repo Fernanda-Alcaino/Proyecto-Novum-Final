@@ -1,27 +1,23 @@
 package cl.fernandaalcaino.proyectonovum.model
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-@Entity(tableName = "habitos")
 data class Post(
-    @PrimaryKey
     @SerializedName("id")
-    val id: Int,
+    val id: Int? = 0,
 
     @SerializedName("nombre")
-    val title: String,
+    val title: String? = "",
 
     @SerializedName("tipo_de_habito")
-    val body: String,
+    val body: String? = "",
 
     @SerializedName("vasos_de_agua")
-    val userId: Int = 0,
+    val userId: Int? = 0,
 
     @SerializedName("avance")
-    val avance: Double = 0.0,
+    val avance: Double? = 0.0,
 
     @SerializedName("completado")
-    val completado: Boolean = false
+    val completado: Boolean? = false
 )
