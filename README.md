@@ -1,4 +1,3 @@
-Este proyecto está diseñado para enseñar desarrollo móvil con Kotlin y Jetpack Compose, siguiendo la arquitectura MVVM.
 MVVM (Model-View-ViewModel) es una arquitectura que separa la lógica de negocio, la gestión de datos y la interfaz de usuario:
 
 Model: Define las estructuras de datos y reglas de negocio.
